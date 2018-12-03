@@ -1,0 +1,56 @@
+/*
+ * TCSS 305 Autumn 2018
+ * Assignment 5
+ */
+
+package action;
+
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
+import gui.DrawingPanel;
+import tools.EllipseTool;
+
+/**
+ * An ellipse action for the Paint program.
+ * 
+ * @author Michael Zachary Loria
+ * @version November 16 2018
+ */
+public class EllipseAction extends AbstractAction
+{
+    final DrawingPanel myDrawingPanel;
+
+    /** A generated serialization ID. */
+    private static final long serialVersionUID = -2338361647653495469L;
+
+    /**
+     * Constructs an ellipse action with the specified icon.
+     * 
+     * @param theIcon The icon.
+     */
+    public EllipseAction(final DrawingPanel theDrawingPanel, final Icon theIcon)
+    {
+        super("Ellipse");
+        putValue(Action.SMALL_ICON, theIcon);
+        final ImageIcon icon = (ImageIcon) theIcon;
+        final Image largeImage =
+                        icon.getImage().getScaledInstance(15, -1, java.awt.Image.SCALE_SMOOTH);
+        final ImageIcon largeIcon = new ImageIcon(largeImage);
+        putValue(Action.LARGE_ICON_KEY, largeIcon);
+        putValue(Action.SELECTED_KEY, true);
+        myDrawingPanel = theDrawingPanel;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent arg0)
+    {
+        myDrawingPanel.setTool(new EllipseTool());
+    }
+
+}

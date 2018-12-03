@@ -1,0 +1,122 @@
+/**
+ * 
+ */
+
+package gui;
+
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSlider;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
+
+import action.EllipseAction;
+import action.LineAction;
+import action.PencilAction;
+import action.RectangleAction;
+import tools.EllipseTool;
+import tools.LineTool;
+import tools.PencilTool;
+import tools.RectangleTool;
+
+/**
+ * The graphical user interface for PowerPaint program.
+ * 
+ * @author Michael Zachary Loria
+ * @version November 16 2018
+ *
+ */
+public class GUI
+{
+    private final JFrame myFrame;
+
+    private final Dimension screenSize;
+    
+    private final static int INITIAL_HEIGHT_WIDTH = 3;
+
+    private final GUIToolBar myToolBar;
+    private final GUIMenuBar myMenuBar;
+
+    private final DrawingPanel myDrawingPanel;
+
+
+    private final LineTool myLineTool;
+    private final PencilTool myPencilTool;
+    private final RectangleTool myRectangleTool;
+    private final EllipseTool myEllipseTool;
+    
+    private final LineAction myLineAction;
+    private final PencilAction myPencilAction;
+    private final RectangleAction myRectangleAction;
+    private final EllipseAction myEllipseAction;
+    
+    private final List<Action> myAction;
+
+    public GUI()
+    {
+        myFrame = new JFrame("TCSS 305 - Paint Program");
+        myDrawingPanel = new DrawingPanel();
+        myLineAction = new LineAction(myDrawingPanel, new ImageIcon("./resources/line.gif"));
+        myPencilAction = new PencilAction(myDrawingPanel, new ImageIcon("./resources/pencil.gif"));
+        myRectangleAction = new RectangleAction(myDrawingPanel, new ImageIcon("./resources/rectangle.gif"));
+        myEllipseAction = new EllipseAction(myDrawingPanel, new ImageIcon("./resources/ellipse.gif"));
+        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        myMenuBar = new GUIMenuBar();
+        myToolBar = new GUIToolBar();
+        myAction = new ArrayList<>();
+        myEllipseTool = new EllipseTool();
+        myRectangleTool = new RectangleTool();
+        myPencilTool = new PencilTool();
+        myLineTool = new LineTool();
+    }
+
+    public void start()
+    
+    {//HOW DO WE SET LINE TO BE DEFAULT SELECTED BUTTON ON STARTUP?
+        /// >>>>>>>>>>>>>>>> ???????????????/
+        // YOU MIGHT NEED TO CREATE THE BUTTON IN THE MENU BAR AND TOOLBAR CLASSES AND SAVE IT
+        //  AND THEN SET SELECTED THERE. 
+        
+        myDrawingPanel.setTool(myLineTool);
+        myAction.add(myLineAction);
+        myAction.add(myPencilAction);
+        myAction.add(myRectangleAction);
+        myAction.add(myEllipseAction);
+        
+        myToolBar.add(new JToggleButton("Color..."));
+        for(Action action : myAction)
+        {
+            myToolBar.createButton(action);
+            myMenuBar.createButton(action);
+        }
+        
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        ImageIcon icon = new ImageIcon("./resources/w.gif");
+        myFrame.setIconImage(icon.getImage());
+        myFrame.setJMenuBar(myMenuBar);
+        myFrame.add(myToolBar, BorderLayout.SOUTH);
+        myFrame.setSize((int) screenSize.getWidth() / INITIAL_HEIGHT_WIDTH, 
+                        (int) screenSize.getHeight() / INITIAL_HEIGHT_WIDTH);
+        myFrame.setLocationRelativeTo(null);
+        myFrame.add(myDrawingPanel, BorderLayout.CENTER);
+        myFrame.setVisible(true);
+        myDrawingPanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+
+    }
+}

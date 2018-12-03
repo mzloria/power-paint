@@ -1,0 +1,165 @@
+/*
+ * TCSS 305 Autumn 2018
+ * Assignment 5
+ */
+
+package gui;
+
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JColorChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSlider;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+/**
+ * A menu bar used by the GUI.
+ * 
+ * @author Michael Zachary Loria
+ * @version November 16 2018
+ */
+public class GUIMenuBar extends JMenuBar
+{
+
+    /** A generated serialization ID. */
+    private static final long serialVersionUID = -4010954639105678332L;
+    
+    /** The amount between major tick spacing in the slider. */
+    private static final int MY_TICK_SPACING = 5;
+    
+    /** A button group for the buttons for the tools. */ 
+    private final ButtonGroup myGroup;
+    
+    /** The JMenu for the tools. */
+    private final JMenu myTools;
+    
+    /** The list of button menu items for the tools. */
+    private final List<JRadioButtonMenuItem> myButtonMenuItems;
+    
+    /** The drawing panel where color will be set. */
+    private final DrawingPanel myDrawingPanel;
+    
+    /**
+     * Constructs the menu bar for the GUI program.
+     * 
+     * @param theDrawingPanel The drawing panel where the color will be set.
+     */
+    public GUIMenuBar(final DrawingPanel theDrawingPanel)
+    {
+        myButtonMenuItems = new ArrayList<>();
+        myGroup = new ButtonGroup();
+        myTools = new JMenu("Tools");
+        myDrawingPanel = theDrawingPanel;
+        setUpMenuBar();  
+    }
+    
+    /**
+     * Sets up the JMenuBar with all of the proper 
+     * components.
+     */
+    private void setUpMenuBar()
+    {
+        final JMenu options = new JMenu("Options");
+        final JMenu thickness = new JMenu("Thickness");
+        final JSlider slider = new JSlider(SwingConstants.HORIZONTAL, 0, 15, 
+                                           myDrawingPanel.getThickness());
+        slider.setMajorTickSpacing(MY_TICK_SPACING);
+        slider.setMinorTickSpacing(1);
+        slider.setPaintLabels(true);
+        slider.setPaintTicks(true);
+        slider.addChangeListener(new ChangeListener()
+        {
+            public void stateChanged(final ChangeEvent theEvent)
+            {
+                myDrawingPanel.setThickness(slider.getValue());
+            }
+        });
+        thickness.add(slider);
+        options.add(thickness);
+        options.addSeparator();
+        options.add(addColorButton());
+        options.addSeparator();
+        options.add(new JMenuItem("Clear"));
+        add(options);
+       
+        add(myTools);
+        
+        final JMenu help = new JMenu("Help");
+        final JMenuItem aboutItem = new JMenuItem("About...");
+        aboutItem.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(final ActionEvent theEvent)
+            {
+                ImageIcon icon = new ImageIcon("./resources/w.gif");
+                final Image image =
+                        icon.getImage().getScaledInstance(90, -1, java.awt.Image.SCALE_SMOOTH);
+                icon = new ImageIcon(image);
+                JOptionPane.showMessageDialog(null, 
+                      "Autumn 2018\nMichael Zachary Loria                    ",
+                      "TCSS 305 - Paint Program", JOptionPane.PLAIN_MESSAGE, icon);
+            }
+        });
+        help.add(aboutItem);
+        add(help);
+    }
+    
+    /** 
+     * Creates a color menu item to be added to the menu. 
+     * 
+     * @return A JMenuItem for color.
+     */
+    private JMenuItem addColorButton()
+    {
+        final JMenuItem colorItem = new JMenuItem("Color...");
+        colorItem.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(final ActionEvent theEvent)
+            {
+                final Color currentColor = JColorChooser.showDialog(null, "Color Chooser", 
+                                                         myDrawingPanel.getColor());
+                if (currentColor != null)
+                {
+                    myDrawingPanel.setColor(currentColor);
+                }
+            }
+        });
+        return colorItem;
+    }
+    
+    /**
+     * Creates a radio button menu item with each respective action,
+     * and adds them to the tool menu and the button group.
+     * 
+     * @param theAction The action associated with each respective JRadioButtonMenuItem.
+     */
+    protected void createButton(final Action theAction) 
+    {
+        final JRadioButtonMenuItem radioButtonMenuItem = new JRadioButtonMenuItem(theAction);
+        myButtonMenuItems.add(radioButtonMenuItem);
+        myGroup.add(radioButtonMenuItem);
+        myTools.add(radioButtonMenuItem);
+    }
+    
+    /**
+     * Sets the default selected button to the first button
+     * added to the button group.
+     */
+    protected void setDefault()
+    {
+        myButtonMenuItems.get(0).setSelected(true);
+    }
+    
+}

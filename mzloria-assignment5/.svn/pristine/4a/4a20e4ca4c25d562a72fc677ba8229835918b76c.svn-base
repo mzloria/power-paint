@@ -1,0 +1,73 @@
+/*
+ * TCSS 305 Autumn 2018
+ * Assignment 5
+ */
+
+package gui;
+
+import java.awt.Color;
+import java.awt.Shape;
+
+/**
+ * This class keeps track of the different aspects
+ * of the shape to be painted, including the color,
+ * thickness, and the shape.
+ * 
+ * @author Michael Zachary Loria
+ * @version November 16 2018
+ */
+public class PaintShape
+{
+    /** The color of the shape. */
+    private final Color myColor;
+    
+    /** The thickness of the shape. */
+    private final int myThickness;
+    
+    /** The shape to be painted. */
+    private final Shape myShape;
+    
+    /**
+     * Initializes the shape, color and thickness. 
+     * 
+     * @param theColor The color of the shape.
+     * @param theThickness The thickness of the shape.
+     * @param theShape THe shape to be painted.
+     */
+    protected PaintShape(final Color theColor, final int theThickness, final Shape theShape)
+    {
+        myColor = theColor;
+        myThickness = theThickness;
+        myShape = theShape;
+    }
+    
+    /**
+     * Returns the color of the shape.
+     * 
+     * @return The color of the shape.
+     */
+    public Color getColor()
+    {
+        return myColor;
+    }
+    
+    /**
+     * Returns the thickness of the shape.
+     * 
+     * @return The thickness of the shape.
+     */
+    public int getThickness()
+    {
+        return myThickness;
+    }
+    
+    /**
+     * Returns the shape to be painted.
+     * 
+     * @return The shape that will be painted.
+     */
+    public Shape getShape()
+    {
+        return myShape;
+    }
+}

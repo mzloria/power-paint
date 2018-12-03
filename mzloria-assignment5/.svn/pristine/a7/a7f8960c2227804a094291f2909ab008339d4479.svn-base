@@ -1,0 +1,174 @@
+/**
+ * 
+ */
+package gui;
+
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSlider;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
+
+import action.EllipseAction;
+import action.LineAction;
+import action.PencilAction;
+import action.RectangleAction;
+
+/**
+ * The graphical user interface for PowerPaint program.
+ * 
+ * @author Michael Zachary Loria
+ * @version November 10 2018
+ *
+ */
+public class GUI
+{
+    private final JFrame myFrame;
+    
+    private final Dimension screenSize;
+    
+    private final int frameWidth;
+    
+    private final int frameHeight;
+    
+    private final JToolBar myToolBar;
+    
+    private final JMenuBar myMenuBar;
+    
+    private final DrawingPanel myDrawingPanel;
+    
+    private final ButtonGroup btngrp;
+    private final ButtonGroup btngrp2;
+    
+    JRadioButtonMenuItem tempLine;
+    JRadioButtonMenuItem tempPencil;
+    JRadioButtonMenuItem tempRect;
+    JRadioButtonMenuItem tempEllipse;
+    
+    JToggleButton tempLineA;
+    JToggleButton tempPencilA;
+    JToggleButton tempRectA;
+    JToggleButton tempEllipseA;
+    
+    LineAction myLineAction;
+    PencilAction myPencilAction;
+    RectangleAction myRectangleAction;
+    EllipseAction myEllipseAction;
+    
+    
+    public GUI()
+    {
+        myFrame = new JFrame("TCSS 305 - Paint Program");
+        btngrp = new ButtonGroup();
+        myDrawingPanel = new DrawingPanel();
+        myLineAction = new LineAction(new ImageIcon("./resources/line.gif"));
+        myPencilAction = new PencilAction(new ImageIcon("./resources/pencil.gif"));
+        myRectangleAction = new RectangleAction(new ImageIcon("./resources/rectangle.gif"));
+        myEllipseAction = new EllipseAction(new ImageIcon("./resources/ellipse.gif"));
+        tempLine = new JRadioButtonMenuItem(myLineAction);
+        tempPencil =new JRadioButtonMenuItem(myPencilAction);
+        tempRect=  new JRadioButtonMenuItem(myRectangleAction);
+        tempEllipse = new JRadioButtonMenuItem(myEllipseAction);
+        
+        tempLineA = new JToggleButton(myLineAction);
+        tempPencilA = new JToggleButton(myPencilAction);
+        tempRectA =new JToggleButton(myRectangleAction);
+        tempEllipseA = new JToggleButton(myEllipseAction);
+        tempLineA.setSelected(true);
+        btngrp2 = new ButtonGroup();
+        btngrp2.add(tempLineA);
+        btngrp2.add(tempPencilA);
+        btngrp2.add(tempRectA);
+        btngrp2.add(tempEllipseA);
+        tempLine.setSelected(true);
+        btngrp.add((tempLine));
+        btngrp.add((tempPencil));
+        btngrp.add((tempRect));
+        btngrp.add((tempEllipse));
+        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frameWidth = (int)screenSize.getWidth()/3;
+        frameHeight = (int)screenSize.getHeight()/3;
+        myToolBar = createToolBar();
+        myMenuBar = createMenuBar();
+        
+        
+   
+    }
+    
+    public void start()
+    {
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ImageIcon icon = new ImageIcon("./resources/w.gif");
+        myFrame.setIconImage(icon.getImage());
+        myFrame.setJMenuBar(myMenuBar);
+        myFrame.add(myToolBar, BorderLayout.SOUTH);
+        myFrame.setSize(frameWidth, frameHeight);
+        myFrame.setLocationRelativeTo(null);
+        myFrame.add(myDrawingPanel, BorderLayout.CENTER);
+        myFrame.setVisible(true);
+        myDrawingPanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+
+        
+    }
+    
+    private JToolBar createToolBar()
+    {
+        final JToolBar bar = new JToolBar();
+        
+            
+        bar.add(new JToggleButton("Color..."));
+        bar.add(tempLineA);
+        bar.add(tempPencilA);
+        bar.add(tempRectA);
+        bar.add(tempEllipseA);
+        
+        return bar;
+    }
+    
+    private JMenuBar createMenuBar()
+    {
+        final JMenuBar menuBar1 = new JMenuBar();
+        
+        final JMenu options = new JMenu("Options");
+        final JMenu thick = new JMenu("Thickness");
+        JSlider theSlide = new JSlider(SwingConstants.HORIZONTAL, 0, 15, 2);
+        theSlide.setMajorTickSpacing(5);
+        theSlide.setMinorTickSpacing(1);
+        theSlide.setPaintLabels(true);
+        theSlide.setPaintTicks(true);
+        thick.add(theSlide);
+        options.add(thick);
+        options.addSeparator();
+        options.add(new JMenuItem("Color..."));
+        options.addSeparator();
+        options.add(new JMenuItem("Clear"));    
+        menuBar1.add(options);
+        
+        final JMenu tools = new JMenu("Tools");
+
+        //final ButtonGroup btngrp = new ButtonGroup();
+
+        
+        tools.add((tempLine));
+        tools.add((tempPencil));
+        tools.add((tempRect));
+        tools.add((tempEllipse));
+        menuBar1.add(tools);
+        final JMenu help = new JMenu("Help");
+        help.add(new JMenuItem("About..."));
+        menuBar1.add(help);
+        
+        return menuBar1;
+    }
+
+}

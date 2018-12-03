@@ -1,0 +1,24 @@
+/**
+ * 
+ */
+package tools;
+
+import java.awt.Point;
+import java.awt.Shape;
+
+/**
+ * @author miclo
+ *
+ */
+public interface Tool
+{
+    void setStartPoint(Point theStartPoint);
+    
+    void setEndPoint(Point theEndPoint);
+    
+    Point getStartPoint();
+    
+    Point getEndPoint();
+    
+    Shape getShape();
+}

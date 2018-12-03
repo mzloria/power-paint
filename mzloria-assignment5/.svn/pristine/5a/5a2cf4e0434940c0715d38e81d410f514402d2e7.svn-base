@@ -1,0 +1,47 @@
+/**
+ * 
+ */
+package gui;
+
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
+/**
+ * @author miclo
+ *
+ */
+public class PencilAction extends AbstractAction
+{
+    private final JPanel myPanel;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2338361647653495469L;
+    
+    PencilAction(final Icon theIcon, final JPanel thePanel)
+    {
+        super("Pencil");
+        myPanel = thePanel;
+        putValue(Action.SMALL_ICON, theIcon);
+        final ImageIcon icon = (ImageIcon) theIcon;
+        final Image largeImage =
+                        icon.getImage().getScaledInstance(15,-1, java.awt.Image.SCALE_SMOOTH);
+        final ImageIcon largeIcon = new ImageIcon(largeImage);
+        putValue(Action.LARGE_ICON_KEY, largeIcon);
+        
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent arg0)
+    {
+        // TODO Auto-generated method stub
+        //myPanel.repaint();
+    }
+
+}

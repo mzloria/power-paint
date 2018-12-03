@@ -1,0 +1,33 @@
+/**
+ * 
+ */
+package tools;
+
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+
+/**
+ * @author miclo
+ *
+ */
+public class EllipseTool extends AbstractTool
+{
+
+    /* (non-Javadoc)
+     * @see tools.Tool#getShape()
+     */
+    @Override
+    public Shape getShape()
+    {
+        int startingPointX = (int) Math.min(getStartPoint().getX(), getEndPoint().getX());
+        int startingPointY = (int) Math.min(getStartPoint().getY(), getEndPoint().getY());
+        int endingPointX = (int) Math.max(getStartPoint().getX(), getEndPoint().getX());
+        int endingPointY = (int) Math.max(getStartPoint().getY(), getEndPoint().getY());
+        return new Ellipse2D.Double(startingPointX, 
+                                      startingPointY,
+                                      endingPointX-startingPointX,
+                                      endingPointY-startingPointY);
+    }
+
+}

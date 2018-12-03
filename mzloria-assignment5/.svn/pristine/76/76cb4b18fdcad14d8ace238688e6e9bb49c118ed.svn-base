@@ -1,0 +1,45 @@
+/**
+ * 
+ */
+package tools;
+
+import java.awt.Point;
+
+/**
+ * @author miclo
+ *
+ */
+public abstract class AbstractTool implements Tool
+{
+    private static final Point NO_POINT = new Point(-50,-50);
+    private Point myStartPoint;
+    private Point myEndPoint;
+    
+    public AbstractTool()
+    {
+        myStartPoint = NO_POINT;
+        myEndPoint = NO_POINT;
+
+    }
+    
+    public void setStartPoint(Point theStartPoint)
+    {
+        myStartPoint = (Point)theStartPoint.clone();
+        myEndPoint = (Point)theStartPoint.clone();
+    }
+    
+    public void setEndPoint(Point theEndPoint)
+    {
+        myEndPoint = (Point)theEndPoint.clone();
+    }
+    
+    public Point getStartPoint()
+    {
+        return myStartPoint;
+    }
+    
+    public Point getEndPoint()
+    {
+        return myEndPoint;
+    }
+}

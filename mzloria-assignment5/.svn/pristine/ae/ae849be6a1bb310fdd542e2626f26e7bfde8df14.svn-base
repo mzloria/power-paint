@@ -1,0 +1,17 @@
+/**
+ * 
+ */
+package tools;
+
+import java.awt.Point;
+
+/**
+ * @author miclo
+ *
+ */
+public interface Tool
+{
+    void setStartPoint(Point thePoint);
+    
+    
+}

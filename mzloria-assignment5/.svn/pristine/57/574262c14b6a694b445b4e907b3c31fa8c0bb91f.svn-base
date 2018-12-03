@@ -1,0 +1,46 @@
+/**
+ * 
+ */
+package gui;
+
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+
+/**
+ * A toolbar used by the GUI.
+ * 
+ * @author Michael Zachary Loria
+ * @version November 12 2018
+ */
+public class GUIToolBar extends JToolBar
+{
+    /** A generated serialization ID. */
+    private static final long serialVersionUID = 5872004772521482231L;
+    
+    /** A button group for the buttons for the tools. */ 
+    private final ButtonGroup myGroup;
+    
+    /**
+     * Constructs the toolbar.
+     */
+    public GUIToolBar()
+    {
+        myGroup = new ButtonGroup();
+    }
+    
+    /**
+     * Creates a JToggleButton and adds it the JButtonGroup and the
+     * toolbar.
+     * 
+     * @param theAction The action that is associated with each respective JToggleButton.
+     */
+    public void createButton(final Action theAction) 
+    {
+        final JToggleButton toggleButton = new JToggleButton(theAction);
+        myGroup.add(toggleButton);
+        myGroup.clearSelection();
+        add(toggleButton);
+    }
+}

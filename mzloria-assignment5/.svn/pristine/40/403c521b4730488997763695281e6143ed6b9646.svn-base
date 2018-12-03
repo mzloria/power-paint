@@ -1,0 +1,33 @@
+/**
+ * 
+ */
+package tools;
+
+import java.awt.Shape;
+import java.awt.geom.Path2D;
+
+/**
+ * @author miclo
+ *
+ */
+public class PencilTool extends AbstractTool
+{
+
+    /**
+     * 
+     */
+    public PencilTool()
+    {
+        // TODO Auto-generated constructor stub
+    }
+    
+    /* (non-Javadoc)
+     * @see tools.Tool#getShape()
+     */
+    @Override
+    public Shape getShape()
+    {
+        return new Path2D.Double();
+    }
+
+}

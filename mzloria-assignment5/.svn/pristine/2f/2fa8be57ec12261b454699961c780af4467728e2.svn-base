@@ -1,0 +1,37 @@
+/**
+ * 
+ */
+package tools;
+
+import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
+
+/**
+ * @author miclo
+ *
+ */
+public class RectangleTool extends AbstractTool
+{
+
+    /**
+     * 
+     */
+    public RectangleTool()
+    {
+        // TODO Auto-generated constructor stub
+    }
+    
+    /* (non-Javadoc)
+     * @see tools.Tool#getShape()
+     */
+    @Override
+    public Shape getShape()
+    {
+        // TODO Auto-generated method stub
+        return new Rectangle2D.Double(getStartPoint().getX(), 
+                                      getStartPoint().getY(),
+                                      getEndPoint().getX(),
+                                      getEndPoint().getY());
+    }
+
+}

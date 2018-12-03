@@ -1,0 +1,124 @@
+/**
+ * 
+ */
+
+package gui;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JPanel;
+
+import tools.AbstractTool;
+import tools.EllipseTool;
+import tools.LineTool;
+import tools.PencilTool;
+import tools.RectangleTool;
+import tools.Tool;
+
+/**
+ * @author miclo
+ *
+ */
+public class DrawingPanel extends JPanel
+{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2834178596939362883L;
+    
+    private static final Color DEFAULT_COLOR = new Color(51,0,111);
+    
+    private int myCurrentThickness;
+    
+
+    
+    private Color myCurrentColor;
+    
+    private Tool myCurrentTool;    
+    
+    private final List<PaintShape> myShapes;
+
+    public DrawingPanel()
+    {
+        myShapes = new ArrayList<>();
+        myCurrentThickness = 5;
+        myCurrentColor = DEFAULT_COLOR;
+
+        setBackground(Color.WHITE);
+        addMouseListener(new DrawMouseAdapter());
+        addMouseMotionListener(new DrawMouseMotionAdapter());
+        
+    }
+
+    @Override
+    public void paintComponent(final Graphics theGraphics)
+    {
+        super.paintComponent(theGraphics);
+        final Graphics2D g2d = (Graphics2D) theGraphics;
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                             RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setStroke(new BasicStroke(2));
+        g2d.setPaint(new Color(51, 0, 111));
+
+
+       
+        for (final PaintShape allShapes : myShapes)
+        {
+            g2d.draw(allShapes.getShape());
+        }
+        g2d.draw(myCurrentTool.getShape());
+    }
+
+    private final class DrawMouseAdapter extends MouseAdapter
+    {
+
+        public void mousePressed(final MouseEvent theEvent)
+        {
+            myCurrentTool.setStartPoint(theEvent.getPoint());
+            repaint();
+        }
+
+        public void mouseReleased(final MouseEvent theEvent)
+        {
+            myShapes.add(new PaintShape(myCurrentColor, myCurrentThickness, myCurrentTool.getShape()));
+        }
+    }
+
+    private final class DrawMouseMotionAdapter extends MouseMotionAdapter
+    {
+        //ISSUE: WITh DOT APPEARING ONLY AFTER I DRAW A LINE??
+        public void mouseDragged(MouseEvent e)
+        {
+            myCurrentTool.setEndPoint(e.getPoint());
+            repaint();
+        }
+    }
+    
+    public void setColor(final Color theColor)
+    {
+        myCurrentColor = theColor;
+    }
+    
+    public void setThickness(final int theThickness)
+    {
+        myCurrentThickness = theThickness;
+    }
+    
+    public void setTool(final Tool theTool)
+    {
+        myCurrentTool = theTool;
+    }
+}

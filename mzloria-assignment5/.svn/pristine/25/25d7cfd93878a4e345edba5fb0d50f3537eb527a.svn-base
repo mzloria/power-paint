@@ -1,0 +1,44 @@
+/**
+ * 
+ */
+package gui;
+
+import java.awt.Color;
+import java.awt.Shape;
+
+/**
+ * @author miclo
+ *
+ */
+public class PaintShape
+{
+    private final Color myColor;
+    
+    private final int myThickness;
+    
+    private final Shape myShape;
+    
+    
+    protected PaintShape(final Color theColor, final int theThickness, final Shape theShape)
+    {
+        myColor = theColor;
+        myThickness = theThickness;
+        myShape = theShape;
+    }
+    
+    public Color getColor()
+    {
+        return myColor;
+    }
+    
+    public int getThickness()
+    {
+        return myThickness;
+    }
+    
+    public Shape getShape()
+    {
+        return myShape;
+    }
+
+}

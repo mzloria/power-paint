@@ -1,0 +1,41 @@
+/**
+ * 
+ */
+package tools;
+
+import java.awt.Point;
+
+/**
+ * @author miclo
+ *
+ */
+public abstract class AbstractTool implements Tool
+{
+    private Point myStartPoint;
+    private Point myEndPoint;
+    
+    public AbstractTool()
+    {
+        
+    }
+    
+    public void setStartPoint(Point theStartPoint)
+    {
+        myStartPoint = theStartPoint;
+    }
+    
+    public void setEndPoint(Point theEndPoint)
+    {
+        myEndPoint = theEndPoint;
+    }
+    
+    public Point getStartPoint()
+    {
+        return myStartPoint;
+    }
+    
+    public Point getEndPoint()
+    {
+        return myEndPoint;
+    }
+}

@@ -1,0 +1,101 @@
+/*
+ * TCSS 305 Autumn 2018
+ * Assignment 5
+ */
+
+package gui;
+
+import action.EllipseAction;
+import action.LineAction;
+import action.PencilAction;
+import action.RectangleAction;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+
+/**
+ * The graphical user interface for Paint program.
+ * 
+ * @author Michael Zachary Loria
+ * @version November 16 2018
+ *
+ */
+public class GUI
+{
+    /** The image icon for the paint program. */
+    private static final ImageIcon GUI_ICON = new ImageIcon("./resources/w.gif");
+    
+    /** The initial window size is a third of the screen size dimensions. */
+    private static final int INITIAL_WINDOW_SIZE = 3;
+    
+    /** The frame for the paint program. */
+    private final JFrame myFrame;
+
+    /** The dimension of the screen. */
+    private final Dimension myScreenSize;
+    
+    /** The tool bar for the program. */
+    private final GUIToolBar myToolBar;
+    
+    /** The menu bar for the program. */
+    private final GUIMenuBar myMenuBar;
+
+    /** The drawing panel for painting. */
+    private final DrawingPanel myDrawingPanel;
+    
+    /** The list of actions for the tools. */
+    private final List<Action> myAction;
+
+    /**
+     * Initializes the fields of the GUI.
+     */
+    public GUI()
+    {
+        myFrame = new JFrame("TCSS 305 - Paint Program");
+        myDrawingPanel = new DrawingPanel();
+        myScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        myMenuBar = new GUIMenuBar(myDrawingPanel);
+        myToolBar = new GUIToolBar(myDrawingPanel);
+        myAction = new ArrayList<>();
+    }
+
+    /**
+     * Properly lays out the components of the GUI and displays
+     * the GUI on the screen.
+     */
+    public void start()
+    {       
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        final Image image = GUI_ICON.getImage().getScaledInstance(15, -1, 
+                                              java.awt.Image.SCALE_SMOOTH);
+        myFrame.setIconImage(image);
+        myFrame.setSize((int) myScreenSize.getWidth() / INITIAL_WINDOW_SIZE, 
+                        (int) myScreenSize.getHeight() / INITIAL_WINDOW_SIZE);
+                
+        myAction.add(new LineAction(myDrawingPanel));
+        myAction.add(new PencilAction(myDrawingPanel));
+        myAction.add(new RectangleAction(myDrawingPanel));
+        myAction.add(new EllipseAction(myDrawingPanel)); 
+        for (Action action : myAction)
+        {
+            myToolBar.createButton(action);
+            myMenuBar.createButton(action);
+        }
+        myMenuBar.setDefault();
+        myFrame.setJMenuBar(myMenuBar);
+        myFrame.add(myToolBar, BorderLayout.SOUTH);
+        
+        myDrawingPanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        myFrame.add(myDrawingPanel, BorderLayout.CENTER);
+        
+        myFrame.setLocationRelativeTo(null);
+        myFrame.setVisible(true);
+    }
+}

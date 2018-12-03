@@ -1,0 +1,44 @@
+/**
+ * 
+ */
+package action;
+
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
+/**
+ * @author miclo
+ *
+ */
+public class RectangleAction extends AbstractAction
+{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2338361647653495469L;
+    
+    public RectangleAction(final Icon theIcon)
+    {
+        super("Rectangle");
+        putValue(Action.SMALL_ICON, theIcon);
+        final ImageIcon icon = (ImageIcon) theIcon;
+        final Image largeImage =
+                        icon.getImage().getScaledInstance(15,-1, java.awt.Image.SCALE_SMOOTH);
+        final ImageIcon largeIcon = new ImageIcon(largeImage);
+        putValue(Action.LARGE_ICON_KEY, largeIcon);
+        putValue(Action.SELECTED_KEY, true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent arg0)
+    {
+        // TODO Auto-generated method stub
+        //myPanel.repaint();
+    }
+
+}
